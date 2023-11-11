@@ -10,7 +10,16 @@ struct Node* xor(struct Node *p1, struct Node *p2){
 	return (struct Node*)((size_t) p1 ^ (size_t)p2);
 }
 
-int containsIter(struct Node* head, int search){
+void printList(struct Node* head){
+	int *prevhead = NULL;
+	while(head != NULL){
+		printf("%d ", head->head);
+		head = xor(prevhead, head);
+		prevhead = head->xor;
+	}
+}
+
+/*int containsIter(struct Node* head, int search){
 	int prevNode = NULL;
 	while(head != NULL){
 		if(head == NULL)return -1;
@@ -22,17 +31,19 @@ int containsIter(struct Node* head, int search){
 			prevNode = temp;
 		}
 	}
-}
+}*/
 
 int main(){
 	struct Node* node1 = malloc(sizeof(struct Node));
 	struct Node* node2 = malloc(sizeof(struct Node));
 	struct Node* node3 = malloc(sizeof(struct Node));
 	node1->head = 5;
-	node2->head = 10;
-	node3->head = 7;
+	node2->head = 7;
+	node3->head = 10;
 	node1->xor = node2;
 	node2->xor = xor(node1, node3);
 	node3->xor = node2;
-	containsIter(node1->head,2);
+	//containsIter(node1->head,2);
+
+	printList(node1);
 }

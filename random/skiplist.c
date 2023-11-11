@@ -43,5 +43,5 @@ int main(){
 	int newValue = 3;
 	insert(node1, newValue);
 
-	printList(node1);
+	//printList(node1);
 }
