@@ -54,18 +54,33 @@ int depth(Node* root){
 	return max(depth(root->left), depth(root->right)) + 1;
 }
 
-int isBalanced(Node* root){
-	if(root == NULL) return 0;
+int isIdentity(Node* tree1, Node* tree2){
+	if(!tree1 && !tree2) return 1;
+	if(!tree1 || !tree2) return 0;
+	if(tree1->value != tree2->value) return 0;
+	return isIdentity(tree1->left, tree2->left) * isIdentity(tree1->right, tree2->right);
+}
+
+int subTree(Node* tree1, Node* tree2){
+	if(!tree2) return 1;
+	if(!tree1) return 0;
+	return isIdentity(tree1, tree2) + subTree(tree1->right, tree2) + subTree(tree1->left, tree2);
 }
 
 int main(){
-    Node* root = initNode(5);
-    push(root, 6);
-    push(root, 3);
-    push(root, 7);
-    printTree(root);
+    	Node* root = initNode(5);
+	Node* root2 = initNode(3);
+
+	push(root2, 2);
+	push(root2, 4);
+    	push(root, 3);
+	push(root, 2);
+	push(root, 6);
+	printTree(root);
 
 	printf("\nTREE SIZE: %d", size(root));
 	printf("\nIsBST: %d", isBST(root));
 	printf("\nDepth of Tree: %d", depth(root));
+	printf("\nIs Identity: %d", isIdentity(root, root2));
+	printf("\nIs subTree: %d", subTree(root, root->left->left));
 }
