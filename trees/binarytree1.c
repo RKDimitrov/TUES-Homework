@@ -15,13 +15,6 @@ Node* initNode(int value){
     return root;
 }
 
-void printTree(Node* root){
-    if(root == NULL) return;
-    printf("%d\n", root->value);
-    if(root->left) printTree(root->left);
-    if(root->right) printTree(root->right);
-}
-
 Node* push(Node* root, int value){
     if(root == NULL) return initNode(value);
     if (value > root->value){
@@ -32,10 +25,35 @@ Node* push(Node* root, int value){
     return root;
 }
 
+void printSpaces(int spaces) {
+    for (int i = 0; i < spaces; ++i) {
+        printf(" ");
+    }
+}
+
+void printTreeRecursive(Node* root, int level, char branch, int spaces) {
+    if (root == NULL) {
+        return;
+    }
+
+    spaces += 4;
+
+    printTreeRecursive(root->right, level + 1, '/', spaces);
+
+    printSpaces(spaces - 4);
+    printf("%c %d\n", branch, root->value);
+
+    printTreeRecursive(root->left, level + 1, '\\', spaces);
+}
+
+void printTree(Node* root) {
+    printTreeRecursive(root, 0, ' ', 0);
+}
+
 int main(){
-    Node* root = initNode(5);
+    Node* root = initNode(3);
     push(root, 6);
-    push(root, 3);
-    push(root, 7);
+    push(root, 1);
+    push(root, -3);
     printTree(root);
 }
