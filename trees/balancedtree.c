@@ -58,23 +58,28 @@ Node* insert(Node* root, int value){
 	}else{
 		root->left = insert(root->left, value);
 	}
-	
+
 	root->height = max(h(root->left), h(root->right)) + 1;
-
-	int diff = h(root->left) - h(root->right);
-	if(diff > 1 && value < root->left->value){
-		return right_rotation(root);
-	}else if(diff < -1 && value > root->right->value){
-		return left_rotation(root);
-	}else if(diff > 1 && value > root->left->value){
-		root->left = left_rotation(root->left);
-		return right_rotation(root);
-	}else if(diff < -1 && value < root->right->value){
-		root->right = right_rotation(root->right);
-		return left_rotation(root);
-	}
-
 	return root;
+}
+
+int isBalanced(Node* root){
+	if(!root) return 1;
+	if((abs(root->left->height - root->right->height) <= 1) && isBalanced(root->left) && isBalanced(root->right)) return 1;
+	return 0;
+}
+
+void bstToArray(Node* root, int* arr, int* i){
+	if(root){
+		bstToArray(root->left, arr, i);
+		
+	}
+}
+
+
+Node* balanceTree(Node* root) {
+    if (isBalanced(root)) return root;
+    
 }
 
 void printSpaces(int spaces) {
@@ -96,23 +101,14 @@ void printTree(Node* root){
     printTreeRecursive(root, 0, ' ', 0);
 }
 
-void ezPrintTree(Node* root){
-	if(!root) return;
-	printf("%d\n", root->value);
-	if(root->right) return ezPrintTree(root->right);
-	if(root->left) return ezPrintTree(root->left);
-}
-
 int main(){
 	Node* root = initNode(5);
-	insert(root, 10);
-	insert(root, 16);
+	insert(root, 4);
+	insert(root, 3);
 
 	printTree(root);
-	//ezPrintTree(root);
-	root = left_rotation(root);
-	printf("Rotated left: \n");
+	//printf("\nisBalanced: %d\n", isBalanced(root));
+	root = balanceTree(root);
 	printTree(root);
-	//ezPrintTree(root);
 	return 0;
 }
